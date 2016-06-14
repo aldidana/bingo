@@ -35,12 +35,15 @@ func (ch CatHandler) GetAllCats(res http.ResponseWriter, request *http.Request, 
       fmt.Printf("Error scanning database result: %s", err)
       return
   }
-  resultMarshal, _ := json.Marshal(cats)
 
-  fmt.Printf("%s",resultMarshal)
-  res.Header().Set("Content-Type", "application/json")
-  res.WriteHeader(200)
-  fmt.Fprintf(res, "%s", resultMarshal)
+  res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+  res.WriteHeader(http.StatusOK)
+
+  if err := json.NewEncoder(res).Encode(cats); err != nil {
+    res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		res.WriteHeader(http.StatusBadRequest)
+		return
+  }
 }
 
 func (ch CatHandler) GetCatByName(res http.ResponseWriter, request *http.Request, p httprouter.Params) {
@@ -63,12 +66,14 @@ func (ch CatHandler) GetCatByName(res http.ResponseWriter, request *http.Request
       return
   }
 
-  resultMarshal, _ := json.Marshal(cats)
+  res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+  res.WriteHeader(http.StatusOK)
 
-  fmt.Printf("%s",resultMarshal)
-  res.Header().Set("Content-Type", "application/json")
-  res.WriteHeader(200)
-  fmt.Fprintf(res, "%s", resultMarshal)
+  if err := json.NewEncoder(res).Encode(cats); err != nil {
+    res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		res.WriteHeader(http.StatusBadRequest)
+		return
+  }
 }
 
 func (ch CatHandler) AddCat(res http.ResponseWriter, request *http.Request, p httprouter.Params) {
@@ -80,11 +85,14 @@ func (ch CatHandler) AddCat(res http.ResponseWriter, request *http.Request, p ht
     log.Fatalln(err.Error())
   }
 
-  resultMarshal, _ := json.Marshal(result)
+  res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+  res.WriteHeader(http.StatusCreated)
 
-	res.Header().Set("Content-Type", "application/json")
-	res.WriteHeader(201)
-	fmt.Fprintf(res, "%s", resultMarshal)
+  if err := json.NewEncoder(res).Encode(result); err != nil {
+    res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		res.WriteHeader(http.StatusBadRequest)
+		return
+  }
 
 }
 
@@ -102,11 +110,14 @@ func (ch CatHandler) UpdateCat(res http.ResponseWriter, request *http.Request, p
     log.Fatalln(err.Error())
   }
 
-  resultMarshal, _ := json.Marshal(result)
+  res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+  res.WriteHeader(http.StatusOK)
 
-	res.Header().Set("Content-Type", "application/json")
-	res.WriteHeader(200)
-	fmt.Fprintf(res, "%s", resultMarshal)
+  if err := json.NewEncoder(res).Encode(result); err != nil {
+    res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		res.WriteHeader(http.StatusBadRequest)
+		return
+  }
 }
 
 
@@ -118,9 +129,12 @@ func (ch CatHandler) DeleteCat(res http.ResponseWriter, request *http.Request, p
     log.Fatalln(err.Error())
   }
 
-  resultMarshal, _ := json.Marshal(result)
+  res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+  res.WriteHeader(http.StatusOK)
 
-	res.Header().Set("Content-Type", "application/json")
-	res.WriteHeader(200)
-	fmt.Fprintf(res, "%s", resultMarshal)
+  if err := json.NewEncoder(res).Encode(result); err != nil {
+    res.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		res.WriteHeader(http.StatusBadRequest)
+		return
+  }
 }

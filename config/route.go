@@ -10,11 +10,11 @@ func Router() *httprouter.Router {
 
   catHandler := handler.NewCatHandler(getSession())
 
-  router.GET("/cat", catHandler.GetAllCats)
-  router.GET("/cat/search", catHandler.GetCatByName)
-  router.POST("/cat/add", catHandler.AddCat)
-  router.PUT("/cat/update/:id", catHandler.UpdateCat)
-  router.DELETE("/cat/delete/:id", catHandler.DeleteCat)
+  router.GET("/cat", Logger(catHandler.GetAllCats))
+  router.GET("/cat/search", Logger(catHandler.GetCatByName))
+  router.POST("/cat/add", Logger(catHandler.AddCat))
+  router.PUT("/cat/update/:id", Logger(catHandler.UpdateCat))
+  router.DELETE("/cat/delete/:id", Logger(catHandler.DeleteCat))
 
   return router
 }

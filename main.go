@@ -8,6 +8,6 @@ import (
 )
 
 func main() {
-  fmt.Print("Bingo Running on port 3000")
+  fmt.Println("Bingo Running on port 3000")
   log.Fatal(http.ListenAndServe(":3000", config.Router()))
 }
