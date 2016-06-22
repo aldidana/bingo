@@ -9,7 +9,7 @@ import (
 //Middlewares type
 type Middlewares func(res http.ResponseWriter, request *http.Request, p httprouter.Params) error
 
-//Middleware golang
+//Middleware for Router
 func Middleware(m ...Middlewares) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		for _, middleware := range m {

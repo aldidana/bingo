@@ -11,7 +11,6 @@ func Router() *httprouter.Router {
 
 	catHandler := handler.NewCatHandler(getSession())
 
-	// router.GET("/cat", Logger(catHandler.GetAllCats))
 	router.GET("/cat", Middleware(Logger, catHandler.GetAllCats))
 	router.GET("/cat/search", Middleware(catHandler.GetCatByName))
 	router.POST("/cat/add", Middleware(catHandler.AddCat))
