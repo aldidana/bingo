@@ -1,20 +1,22 @@
 package config
 
 import (
-  "github.com/julienschmidt/httprouter"
-  "github.com/aldidana/bingo/handler"
+	"github.com/aldidana/bingo/handler"
+	"github.com/julienschmidt/httprouter"
 )
 
+//Router API Router
 func Router() *httprouter.Router {
-  router := httprouter.New()
+	router := httprouter.New()
 
-  catHandler := handler.NewCatHandler(getSession())
+	catHandler := handler.NewCatHandler(getSession())
 
-  router.GET("/cat", Logger(catHandler.GetAllCats))
-  router.GET("/cat/search", Logger(catHandler.GetCatByName))
-  router.POST("/cat/add", Logger(catHandler.AddCat))
-  router.PUT("/cat/update/:id", Logger(catHandler.UpdateCat))
-  router.DELETE("/cat/delete/:id", Logger(catHandler.DeleteCat))
+	// router.GET("/cat", Logger(catHandler.GetAllCats))
+	router.GET("/cat", Middleware(Logger, catHandler.GetAllCats))
+	router.GET("/cat/search", Middleware(catHandler.GetCatByName))
+	router.POST("/cat/add", Middleware(catHandler.AddCat))
+	router.PUT("/cat/update/:id", Middleware(catHandler.UpdateCat))
+	router.DELETE("/cat/delete/:id", Middleware(catHandler.DeleteCat))
 
-  return router
+	return router
 }
